@@ -24,6 +24,12 @@
 - dotnet ef tool
   - dotnet tool install --global dotnet-ef
 
+#### Dotnet ef Command's
+
+- dotnet ef migrations add InitialDb --output-dir Models/Migrations/WebMigrations --context WebAPIDbContext --project .\WebAPI
+- dotnet ef database update --project .\WebAPI
+- dotnet ef database drop --project .\WebAPI
+
 #### Git Branches
 
 - 01Start
