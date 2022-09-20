@@ -5,20 +5,40 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using WebAPI.Models;
 
 namespace WebAPI
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        private IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<WebAPIDbContext> (cfg =>
+            {
+                cfg.UseSqlServer(Configuration["ConnectionStrings:WebApiConnection"], sqlServerOptionsAction: sqlOptions =>
+                {
+                    sqlOptions.EnableRetryOnFailure(maxRetryCount:5, maxRetryDelay:TimeSpan.FromSeconds(15), errorNumbersToAdd: null);
+                });
+                if(Configuration["EnableEFLogging"]== "true")
+                {
+                    cfg.UseLoggerFactory(LoggerFactory.Create(lg => lg.AddConsole())).EnableSensitiveDataLogging();
+                }
+                if(Configuration["EnableEFLazyLoading"]== "true")
+                {
+                    cfg.UseLazyLoadingProxies(true);
+                }
+            });
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
