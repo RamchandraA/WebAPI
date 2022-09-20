@@ -12,7 +12,7 @@ namespace WebAPI.Models.Entities
     [StringLength(maximumLength:250, MinimumLength =4)]
     public string Description { get; set; }
     [Required(ErrorMessage ="Price cannot be empty"), Column(TypeName ="float(8,2)"), Range(minimum:0.01, maximum:float.MaxValue)]
-    public float Price { get; set; }
+    public decimal Price { get; set; }
     [Required(ErrorMessage ="Category cannot be empty"), StringLength(maximumLength:150, MinimumLength =4)]
     public string Category { get; set; }
   }

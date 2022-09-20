@@ -36,3 +36,4 @@
 - 02ModelEntities
 - 03DbContext
 - 04DotnetEFTool
+- 05ProductSeedData

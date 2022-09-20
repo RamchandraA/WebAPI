@@ -14,7 +14,7 @@ namespace WebAPI.Models.Migrations.WebMigrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    Price = table.Column<float>(type: "float(8)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(8)", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
                 },
                 constraints: table =>
